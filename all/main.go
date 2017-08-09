@@ -65,7 +65,7 @@ func HotRequest(host string) (*models.CommonResponse, error) {
 	if strings.Contains(host, "https") {
 		req.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	}
-	req.SetTimeout(10*time.Second, 5*time.Second)
+	req.SetTimeout(5*time.Second, 5*time.Second)
 
 	err := req.ToJSON(&commonresponse)
 	if err != nil {
@@ -196,8 +196,9 @@ func ResponseLog(ch chan *models.CommonResponse, logs chan *models.Response) {
 					continue
 				}
 				fmt.Println("id值：", data.Data[length-1].Id)
-				for data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, data.Data[length-1].Id)); err == nil; {
+				for data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, data.Data[length-1].Id)); err == nil;data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, data.Data[length-1].Id)) {
 					for _, value := range data.Data {
+						log.Infof("打印正在循环的id：%v",data.Data[length-1].Id)
 						gender := 0
 						if value.Author.Gender == "M" {
 							gender = 1

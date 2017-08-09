@@ -28,7 +28,7 @@ func main() {
 		return
 	}
 	hotMomentChannel <- response
-	for i := 0; i < 30; i++ {
+	for i := 0; i < 70; i++ {
 		go ResponseLog(hotMomentChannel, logs)
 	}
 	go PrintJson(logs, *filePath)

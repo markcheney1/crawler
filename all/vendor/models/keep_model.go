@@ -37,6 +37,7 @@ type WithAuthor struct {
 /**************************************************************/
 //https://api.gotokeep.com/v1.1/entries/5979c08d879cca091d91461d/comments?limit=20&reverse=true
 var HotMomentCommentHost string = "https://api.gotokeep.com/v1.1/entries/%s/comments?limit=20&reverse=true"
+var HotMomentCommentHost2 string = "https://api.gotokeep.com/v1.1/entries/%s/comments?lastId=%s&limit=20&reverse=true"
 
 type HotMomentComment struct {
 	Ok        bool `json:"ok"`

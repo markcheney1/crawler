@@ -28,7 +28,7 @@ func main() {
 		return
 	}
 	hotMomentChannel <- response
-	for i := 0; i < 70; i++ {
+	for i := 0; i < 100; i++ {
 		go ResponseLog(hotMomentChannel, logs)
 	}
 	go PrintJson(logs, *filePath)
@@ -145,7 +145,7 @@ func ResponseLog(ch chan *models.CommonResponse, logs chan *models.Response) {
 	for {
 		hot := <-ch
 		for _, entry := range hot.Data.(*models.HotMomentData).Entries {
-			fmt.Println("id值：", entry.Id)
+			fmt.Println("first:id值：", entry.Id)
 			if data, err := CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, entry.Id)); err != nil {
 				fmt.Println("errrrrrrrrr", err)
 				continue
@@ -195,8 +195,8 @@ func ResponseLog(ch chan *models.CommonResponse, logs chan *models.Response) {
 					logs <- &response
 					continue
 				}
-				fmt.Println("id值：", data.Data[length-1].Id)
-				for data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, data.Data[length-1].Id)); err == nil;data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost, data.Data[length-1].Id)) {
+				fmt.Println("next,id值：", data.Data[length-1].Id)
+				for data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost2, entry.Id, data.Data[length-1].Id)); err == nil; data, err = CommentRequest(fmt.Sprintf(models.HotMomentCommentHost2, entry.Id, data.Data[length-1].Id)) {
 					for _, value := range data.Data {
 						log.Infof("打印正在循环的id：%v",data.Data[length-1].Id)
 						gender := 0

@@ -49,17 +49,20 @@ func main()  {
 	}
 	buf.Write(ids)
 	buf.Flush()
-
-	for i := 0 ;ids, lastId, err = GetId(fmt.Sprintf(host, lastId)) ; {
-		if lastId == "" {
-			break
-		}
+	var tmp string
+	for {
+		ids, lastId, err = GetId(fmt.Sprintf(host, lastId))
 		if err != nil {
+			lastId = tmp
 			time.Sleep(30*time.Second)
 			continue
 		}
+		if lastId == "" {
+			break
+		}
 		buf.Write(ids)
 		buf.Flush()
+		tmp = lastId
 	}
 }
 
